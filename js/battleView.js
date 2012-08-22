@@ -6,11 +6,12 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     
     var module = new Observable();
 
-    module.EVENT_READY = "battleViewReady";
-    module.EVENT_READY_TO_ENGAGE = "battleViewReadyToEngage";
+    module.EVENT_READY = "battleViewReady"; // view was initialized
+    module.EVENT_READY_TO_ENGAGE = "battleViewReadyToEngage"; // intro was done
     module.EVENT_TURN_ACTIONS_SET = "turnActionsSet";
     module.EVENT_PERFORM_ACTION = "performAction";
     module.EVENT_ACTION_DONE = "actionDone";
+    module.EVENT_OUTRO_DONE = "outroDone"; // battle final status displayed, ready to quit
     
     // The only way to compute this would be: obj.spriteSheet._frames[0].width;
     var SPRITE_SIZE = 64;
@@ -404,7 +405,9 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     module.showBattleResult = function (victory, battleCount) {
         if (victory) {
             showMessage("The good guys win!");
-            showBigMessage("VICTORY !");
+            showBigMessage("VICTORY !", 1000, function () {
+                module.trigger(module.EVENT_OUTRO_DONE);
+            });
         } else {
             showMessage("GAME OVER, battle count: " + battleCount);
             showBigMessage("YOU LOSE !");

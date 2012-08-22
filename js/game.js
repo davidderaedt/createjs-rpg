@@ -106,11 +106,15 @@ define(["Observable", "battleEngine", "Fighter", "ActionResult", "battleView", "
         if (battleEngine.status === battleEngine.STATUS_T1_VICTORY) {
             battleView.showBattleResult(true, battleCount);
 
-            // TMP: fight until the end !!
-            _newBattle();
         } else {
             battleView.showBattleResult(false, battleCount);
         }
+    }
+    
+    function onOutroDone() {
+        // TMP: chain fights until the end !!
+        _newBattle();
+        
     }
 
 
@@ -124,6 +128,7 @@ define(["Observable", "battleEngine", "Fighter", "ActionResult", "battleView", "
         battleView.bind(battleView.EVENT_PERFORM_ACTION, onActionBePerformed);
         battleView.bind(battleView.EVENT_ACTION_DONE, onActionDone);
         battleView.bind(battleView.EVENT_READY_TO_ENGAGE, onReadyToEngage);
+        battleView.bind(battleView.EVENT_OUTRO_DONE, onOutroDone);
 
         battleView.bind(battleView.EVENT_READY, function () {
             
