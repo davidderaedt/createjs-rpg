@@ -1,9 +1,9 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global window, define, Stage, Ticker, PreloadJS, SpriteSheet, BitmapAnimation, Text, Graphics, Shape, Bitmap, Tween, Container, Shadow */
+/*global require, lib, window, define, Stage, Ticker, PreloadJS, SpriteSheet, BitmapAnimation, Text, Graphics, Shape, Bitmap, Tween, Container, Shadow */
 
 define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     "use strict";
-
+    
     var module = new Observable();
 
     module.EVENT_READY = "battleViewReady";
@@ -78,12 +78,9 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
                 for (key in ssdata) {
                     if (ssdata.hasOwnProperty(key)) {
                         var spData = ssdata[key];
-                        // TMP needed to fix data exported from flash pro
-                        spData.images[0] = "assets/" + spData.images[0];
                         pAssets[key + "SpriteSheet"] = new SpriteSheet(spData);
                     }
                 }
-                console.log(ssdata);
 
                 break;
 
@@ -106,6 +103,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
 
     
     function createMsgBoxes() {
+        
         msgText = new Text("", "bold 14px Arial", "#EEEEEE");
         stage.addChild(msgText);
         msgText.x = 10;
@@ -206,8 +204,6 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
         
         // load data
         var manifest = [
-            {src: "assets/sprites.json", id: "fighters"},
-            {src: "assets/sprites.png", id: "fighters-sheet"},
             {src: "assets/bgd.jpg", id: "bgd"}
         ];
         
@@ -220,7 +216,8 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
         // TODO get the spriteSheet according to the model
         var fighterType = "BasicFighter";
         
-        var f = new BitmapAnimation(assets[fighterType + "SpriteSheet"]);
+        var f = new lib[fighterType]();
+        
         fightersContainer.addChild(f);
         f.model = pFighterModel;
         f.x = pPos.x;
@@ -395,7 +392,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
 
         createFighters(pTeam1, pTeam2);
 
-//        showMessage("------------- NEW BATTLE -------------");
+        log("------------- NEW BATTLE -------------");
         showBigMessage("READY...", 600, function () {
             showBigMessage("FIGHT !", 400, function () {
                 module.trigger(module.EVENT_READY_TO_ENGAGE);

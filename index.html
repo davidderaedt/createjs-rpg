@@ -19,24 +19,27 @@
 <body>
 
   <header>
-      RPG ENGINE RUNNER
+      RPG BATTLE ENGINE RUNNER
   </header>
 
     <canvas id="mainCanvas" width="600" height="400" ></canvas>
     
     
+    <!-- createJS -->
     <script src="js/libs/easeljs-0.4.1.min.js"></script>
     <script src="js/libs/preloadjs-0.1.0.min.js"></script>    
     <script src="js/libs/tweenjs-0.2.0.min.js"></script>
 
-  <!-- jQuery -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+    <!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>    
+    <script src="js/plugins.js"></script><!-- scripts concatenated and minified via build script -->
 
-  <!-- scripts concatenated and minified via build script -->
-  <script src="js/plugins.js"></script>
+    <!-- spriteData -->
+    <script src="assets/sprites/rpg.js"></script>
     
-  <script data-main="js/main" src="js/libs/require.js"></script>
+    <!-- main -->
+    <script data-main="js/main" src="js/libs/require.js"></script>
 
 
 </body>

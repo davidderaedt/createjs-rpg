@@ -42,6 +42,9 @@
     ],
         
         
-    "fighters":[]
+    "fighters":[
+        {"name":"BasicFighter"},
+        {"name":"NMEFighter"}
+    ]
     
 }
