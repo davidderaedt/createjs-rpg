@@ -1,0 +1,47 @@
+{
+    
+    "weapons":[
+        {
+            "name":"Wood Sword",
+            "attack":2,
+            "targetNum":1
+        },
+        {
+            "name":"Iron Sword",
+            "attack":5,
+            "targetNum":1
+        },
+        {
+            "name":"Golden Sword",
+            "attack":8,
+            "targetNum":2
+        },
+        {
+            "name":"Magic Stick",
+            "attack":3,
+            "targetNum":1
+        }
+        
+    ],
+        
+        
+        
+    "shields":[
+        {
+            "name":"Wood Shield",
+            "defense":2
+        },    
+        {
+            "name":"Iron Shield",
+            "defense":4
+        },  
+        {
+            "name":"Gold Shield",
+            "defense":8
+        }
+    ],
+        
+        
+    "fighters":[]
+    
+}
