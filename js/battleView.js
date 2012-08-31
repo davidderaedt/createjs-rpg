@@ -1,8 +1,16 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global require, lib, window, define, createjs */
+/*global require, lib, window, define, easeljs, createjs */
 
-define(["Observable", "FighterAction"], function (Observable, FighterAction) {
+define(["Observable", "FighterAction", "require", "../assets/sprites/rpg", "libs/easeljs-0.5.0.min", "libs/preloadjs-0.2.0.min", "libs/tweenjs-0.3.0.min"], function (Observable, FighterAction, require) {
     "use strict";
+    
+    // load createjs libs
+    var easeljs = require("libs/easeljs-0.5.0.min");
+    var preloadjs = require("libs/preloadjs-0.2.0.min");
+    var tweenjs = require("libs/tweenjs-0.3.0.min");
+    
+    //load spritesheets
+    var sheets = require("../assets/sprites/rpg");
     
     var module = new Observable();
 
