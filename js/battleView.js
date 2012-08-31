@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global require, lib, window, define, Stage, Ticker, PreloadJS, SpriteSheet, BitmapAnimation, Text, Graphics, Shape, Bitmap, Tween, Container, Shadow */
+/*global require, lib, window, define, createjs */
 
 define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     "use strict";
@@ -79,7 +79,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
                 for (key in ssdata) {
                     if (ssdata.hasOwnProperty(key)) {
                         var spData = ssdata[key];
-                        pAssets[key + "SpriteSheet"] = new SpriteSheet(spData);
+                        pAssets[key + "SpriteSheet"] = new createjs.SpriteSheet(spData);
                     }
                 }
 
@@ -96,7 +96,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     function showLoadingMessage() {
         
         log("Now loading...");
-        loadingText = new Text("Loading", "36px Arial", "#777");
+        loadingText = new createjs.Text("Loading", "36px Arial", "#777");
         stage.addChild(loadingText);
         loadingText.x = 10;
         loadingText.y = 40;
@@ -105,27 +105,27 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     
     function createMsgBoxes() {
         
-        msgText = new Text("", "bold 14px Arial", "#EEEEEE");
+        msgText = new createjs.Text("", "bold 14px Arial", "#EEEEEE");
         stage.addChild(msgText);
         msgText.x = 10;
         msgText.y = stage.canvas.height - 20;
-        msgText.shadow = new Shadow("#000", 2, 2, 2);
+        msgText.shadow = new createjs.Shadow("#000", 2, 2, 2);
         
         
-        bigMsgBox = new Container();
+        bigMsgBox = new createjs.Container();
         stage.addChild(bigMsgBox);
         var boxHeight = 90;
-        var bigMsgBoxBgd = new Shape();
+        var bigMsgBoxBgd = new createjs.Shape();
         var g = bigMsgBoxBgd.graphics;
 		g.beginFill("rgba(50,50,50,0.7)");
 		g.drawRect(0, 0, stage.canvas.width, boxHeight);
         bigMsgBox.addChild(bigMsgBoxBgd);
-        bigMsgText = new Text("", "bold 36px ARIAL", "#FFFFFF");
+        bigMsgText = new createjs.Text("", "bold 36px ARIAL", "#FFFFFF");
         bigMsgBox.addChild(bigMsgText);
         bigMsgText.textAlign = "center";
         bigMsgText.text = "-";
-        bigMsgText.y = 56;
-        bigMsgText.shadow = new Shadow("#000", 3, 3, 3);
+        bigMsgText.y = (boxHeight / 2) - (20);
+        bigMsgText.shadow = new createjs.Shadow("#000", 3, 3, 3);
         bigMsgText.x = stage.canvas.width / 2;
         log("stage.canvas.height " + stage.canvas.height);
         bigMsgBox.y = (stage.canvas.height / 2) - (boxHeight / 2);
@@ -135,18 +135,18 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     
     function addFPS() {
         
-        fpsText = new Text("--/--", "bold 16px Arial", "#000");
+        fpsText = new createjs.Text("--/--", "bold 16px Arial", "#000");
         stage.addChild(fpsText);
         fpsText.x = stage.canvas.width - 50;
         fpsText.y = 26;
         fpsText.onTick = function () {
-            fpsText.text = (Math.round(Ticker.getMeasuredFPS()) + "/" + Ticker.getFPS());
+            fpsText.text = (Math.round(createjs.Ticker.getMeasuredFPS()) + "/" + createjs.Ticker.getFPS());
         };
     }
     
     
     function drawBackground() {
-        var bmp = new Bitmap(assets.bgdImg);
+        var bmp = new createjs.Bitmap(assets.bgdImg);
         stage.addChild(bmp);
     }
     
@@ -154,7 +154,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     function initStage() {
         stage.removeChild(loadingText);
         drawBackground();
-        fightersContainer = new Container();
+        fightersContainer = new createjs.Container();
         stage.addChild(fightersContainer);
         createMsgBoxes();
         addFPS();
@@ -168,7 +168,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
         rawAssets = [];
         assets = {};
 
-        var loader = new PreloadJS();
+        var loader = new createjs.PreloadJS();
         
         loader.onFileLoad = function (item) {
             rawAssets.push(item);
@@ -197,11 +197,11 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
         log("Initializing battle view");
         
         // set up stage
-        stage = new Stage(pCanvas);
+        stage = new createjs.Stage(pCanvas);
 
         // Set up animation
-        Ticker.setFPS(40);
-        Ticker.addListener(onTick);
+        createjs.Ticker.setFPS(40);
+        createjs.Ticker.addListener(onTick);
         
         // load data
         var manifest = [
@@ -295,7 +295,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
     module.showHit = function (fighter, hitValue) {
         
         var targetSprite = getFighterSpriteOf(fighter);
-        var tween = Tween.get(targetSprite)
+        var tween = createjs.Tween.get(targetSprite)
             .call(targetSprite.gotoAndPlay, ["hit"])
             .wait(5 * speedFactor)
             .call(function () {
@@ -318,7 +318,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
         
         var pFighterSprite = getFighterSpriteOf(pAction.fighter);
         
-        var tween = Tween.get(pFighterSprite)
+        var tween = createjs.Tween.get(pFighterSprite)
             .wait(5 * speedFactor)
             .call(pFighterSprite.gotoAndPlay, ["run"])
             .to(pFighterSprite.originPoint, 10 * speedFactor)
@@ -349,7 +349,7 @@ define(["Observable", "FighterAction"], function (Observable, FighterAction) {
             };
         }
         
-        var tween = Tween.get(pFighterSprite)
+        var tween = createjs.Tween.get(pFighterSprite)
             .call(pFighterSprite.gotoAndPlay, ["run"])
             .to(targetPoint, 15 * speedFactor)
             .call(pFighterSprite.gotoAndPlay, ["attack"])
