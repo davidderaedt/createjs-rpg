@@ -1,17 +1,9 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global require, lib, window, define, easeljs, createjs */
-
-define(["Observable", "FighterAction", "require", "../assets/sprites/rpg", "libs/easeljs-0.5.0.min", "libs/preloadjs-0.2.0.min", "libs/tweenjs-0.3.0.min"], function (Observable, FighterAction, require) {
+/*global require, lib, window, define, createjs */
+//define(["Observable", "FighterAction", "require", "../assets/sprites/rpg", "libs/easeljs-0.5.0.min", "libs/tweenjs-0.3.0.min", "libs/preloadjs-0.2.0.min"], function (Observable, FighterAction, require) {
+define(["Observable", "FighterAction", "../assets/sprites/rpg" ], function (Observable, FighterAction) {
     "use strict";
-    
-    // load createjs libs
-    var easeljs = require("libs/easeljs-0.5.0.min");
-    var preloadjs = require("libs/preloadjs-0.2.0.min");
-    var tweenjs = require("libs/tweenjs-0.3.0.min");
-    
-    //load spritesheets
-    var sheets = require("../assets/sprites/rpg");
-    
+        
     var module = new Observable();
 
     module.EVENT_READY = "battleViewReady"; // view was initialized
@@ -104,10 +96,12 @@ define(["Observable", "FighterAction", "require", "../assets/sprites/rpg", "libs
     function showLoadingMessage() {
         
         log("Now loading...");
+        
         loadingText = new createjs.Text("Loading", "36px Arial", "#777");
         stage.addChild(loadingText);
         loadingText.x = 10;
         loadingText.y = 40;
+        
     }
 
     
@@ -204,14 +198,13 @@ define(["Observable", "FighterAction", "require", "../assets/sprites/rpg", "libs
 
         log("Initializing battle view");
         
-        // set up stage
         stage = new createjs.Stage(pCanvas);
 
-        // Set up animation
         createjs.Ticker.setFPS(40);
         createjs.Ticker.addListener(onTick);
         
         // load data
+        
         var manifest = [
             {src: "assets/bgd.jpg", id: "bgd"}
         ];
@@ -423,6 +416,5 @@ define(["Observable", "FighterAction", "require", "../assets/sprites/rpg", "libs
     };
     
     return module;
-    
 });
 
