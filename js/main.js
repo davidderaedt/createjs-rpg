@@ -1,8 +1,8 @@
-/*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global require, requirejs, $ */
+/*jshint browser:true, strict:true, devel:true, camelcase:true, eqeqeq:true, forin:true, immed:true, indent: 4, newcap:true, noempty:true, quotmark:true, undef:true, unused:true */
+/*global require, requirejs*/
 
 (function () {
-    'use strict';
+    "use strict";
     
     console.log("Page init");
     
@@ -20,16 +20,16 @@
         */
         
         paths: {
-            jquery: 'libs/jquery-1.7.1.min'
+            jquery: "libs/jquery-1.7.1.min"
         }
     });
     
     
-    require(["app", "jquery"], function (app, $) {
+    require(["rpgApp", "jquery"], function (rpgApp, $) {
                 
         $(function () {
             console.log("Doc ready");
-            app.init();
+            rpgApp.init();
         });
         
     });

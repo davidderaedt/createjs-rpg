@@ -1,7 +1,7 @@
-/*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global document, define, $, setTimeout, XMLHttpRequest, navigator */
+/*jshint browser:true, strict:true, devel:true, camelcase:true, eqeqeq:true, forin:true, immed:true, indent: 4, newcap:true, noempty:true, quotmark:true, undef:true, unused:true */
+/*global define*/
 
-define(["Observable", "battleEngine", "Fighter", "ActionResult", "battleView", "Weapon", "Shield"], function (Observable, battleEngine, Fighter, ActionResult, battleView, Weapon, Shield) {
+define(["Observable", "battleModel", "Fighter", "ActionResult", "battleView"], function (Observable, battleEngine, Fighter, ActionResult, battleView) {
     "use strict";
 
     var module = new Observable();
@@ -13,8 +13,38 @@ define(["Observable", "battleEngine", "Fighter", "ActionResult", "battleView", "
     
     var battleCount = 0;
     var dataDB = {};
+    
+    
+    module.init = function () {
 
-    // utility function to load json
+        battleEngine.bind(battleEngine.EVENT_TURN_READY, onTurnReady);
+        battleEngine.bind(battleEngine.EVENT_FIGHTER_ACTION_START, onFighterActionStart);
+        battleEngine.bind(battleEngine.EVENT_BATTLE_ENDED, onBattleEnded);
+
+        battleView.bind(battleView.EVENT_TURN_ACTIONS_SET, onTurnActionsSet);
+        battleView.bind(battleView.EVENT_PERFORM_ACTION, onActionBePerformed);
+        battleView.bind(battleView.EVENT_ACTION_DONE, onActionDone);
+        battleView.bind(battleView.EVENT_READY_TO_ENGAGE, onReadyToEngage);
+        battleView.bind(battleView.EVENT_OUTRO_DONE, onOutroDone);
+
+        battleView.bind(battleView.EVENT_READY, function () {
+            
+            console.log("view is ready, now loading data");
+
+            loadJSON("data/data.json", function (obj) {
+                console.log("Data loaded");
+                dataDB = obj;
+                module.trigger(module.EVENT_READY);
+            });
+            
+        });
+
+        var canvas = document.getElementById("mainCanvas");
+        battleView.init(canvas);  
+    };
+    
+
+    
     function loadJSON(URL, callback) {
         var oRequest = new XMLHttpRequest();
         oRequest.open("GET", URL, true);
@@ -25,8 +55,20 @@ define(["Observable", "battleEngine", "Fighter", "ActionResult", "battleView", "
         };
         oRequest.send(null);
     }
+    
+    
+    
+    module.start = function () {
+        
+        // Here we artificially generate the player's team
+        playerTeam = _generateTeam(4, "Friend ");
+        
+        // We directly enter a new battle to test the engine 
+        _newBattle();
+    };
 
 
+    
     function _generateTeam(pNum, pPrefix) {
         var team = [];
         var j;
@@ -49,12 +91,12 @@ define(["Observable", "battleEngine", "Fighter", "ActionResult", "battleView", "
 
         battleCount++;
 
+        // Generate a random enemy team
         var numEnemies = Math.ceil(Math.random() * 5);
         enemyTeam = _generateTeam(numEnemies, "Enemy ");
 
+        // Show the battle to the user
         battleView.showBattle(playerTeam, enemyTeam);
-
-       
     }
     
     function onReadyToEngage() {
@@ -117,47 +159,6 @@ define(["Observable", "battleEngine", "Fighter", "ActionResult", "battleView", "
         
     }
 
-
-    function init() {
-
-        battleEngine.bind(battleEngine.EVENT_TURN_READY, onTurnReady);
-        battleEngine.bind(battleEngine.EVENT_FIGHTER_ACTION_START, onFighterActionStart);
-        battleEngine.bind(battleEngine.EVENT_BATTLE_ENDED, onBattleEnded);
-
-        battleView.bind(battleView.EVENT_TURN_ACTIONS_SET, onTurnActionsSet);
-        battleView.bind(battleView.EVENT_PERFORM_ACTION, onActionBePerformed);
-        battleView.bind(battleView.EVENT_ACTION_DONE, onActionDone);
-        battleView.bind(battleView.EVENT_READY_TO_ENGAGE, onReadyToEngage);
-        battleView.bind(battleView.EVENT_OUTRO_DONE, onOutroDone);
-
-        battleView.bind(battleView.EVENT_READY, function () {
-            
-            console.log("view is ready, now loading data");
-
-            loadJSON("data/data.json", function (obj) {
-                console.log("Data loaded");
-                dataDB = obj;
-                module.trigger(module.EVENT_READY);
-            });
-            
-        });
-
-        var canvas = document.getElementById('mainCanvas');
-        battleView.init(canvas);
-        
-    }
-
-
-    function start() {
-
-        playerTeam = _generateTeam(4, "Friend ");
-
-        _newBattle();
-    }
-
-
-    module.init = init;
-    module.start = start;
 
     return module;
 

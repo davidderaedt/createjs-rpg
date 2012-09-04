@@ -1,6 +1,10 @@
-/*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global require, lib, window, define, createjs */
-//define(["Observable", "FighterAction", "require", "../assets/sprites/rpg", "libs/easeljs-0.5.0.min", "libs/tweenjs-0.3.0.min", "libs/preloadjs-0.2.0.min"], function (Observable, FighterAction, require) {
+/*jshint browser:true, strict:true, devel:true, camelcase:true, eqeqeq:true, forin:true, immed:true, indent: 4, newcap:true, noempty:true, quotmark:true, undef:true, unused:true */
+/*global define, createjs, lib*/
+
+/*
+If we wanted to load createJS libs with requirejs, we'd use this:
+define(["Observable", "FighterAction", "require", "../assets/sprites/rpg", "libs/easeljs-0.5.0.min", "libs/tweenjs-0.3.0.min", "libs/preloadjs-0.2.0.min"], function (Observable, FighterAction, require) {
+*/
 define(["Observable", "FighterAction", "../assets/sprites/rpg" ], function (Observable, FighterAction) {
     "use strict";
         
@@ -13,6 +17,7 @@ define(["Observable", "FighterAction", "../assets/sprites/rpg" ], function (Obse
     module.EVENT_ACTION_DONE = "actionDone";
     module.EVENT_OUTRO_DONE = "outroDone"; // battle final status displayed, ready to quit
     
+    // NOTE:
     // The only way to compute this would be: obj.spriteSheet._frames[0].width;
     var SPRITE_SIZE = 64;
     
@@ -24,7 +29,6 @@ define(["Observable", "FighterAction", "../assets/sprites/rpg" ], function (Obse
     var fpsText;
     var loadingText;
     var msgText;
-    var msgTextShadow;
     var bigMsgBox;
     var bigMsgText;
     var fightersContainer;
@@ -40,7 +44,7 @@ define(["Observable", "FighterAction", "../assets/sprites/rpg" ], function (Obse
     
     
     // Logging system
-    function log(pMessage) {
+    function log() {
         console.log.apply(console, arguments);
     }
 
@@ -296,7 +300,8 @@ define(["Observable", "FighterAction", "../assets/sprites/rpg" ], function (Obse
     module.showHit = function (fighter, hitValue) {
         
         var targetSprite = getFighterSpriteOf(fighter);
-        var tween = createjs.Tween.get(targetSprite)
+        
+        createjs.Tween.get(targetSprite)
             .call(targetSprite.gotoAndPlay, ["hit"])
             .wait(5 * speedFactor)
             .call(function () {
@@ -319,7 +324,7 @@ define(["Observable", "FighterAction", "../assets/sprites/rpg" ], function (Obse
         
         var pFighterSprite = getFighterSpriteOf(pAction.fighter);
         
-        var tween = createjs.Tween.get(pFighterSprite)
+        createjs.Tween.get(pFighterSprite)
             .wait(5 * speedFactor)
             .call(pFighterSprite.gotoAndPlay, ["run"])
             .to(pFighterSprite.originPoint, 10 * speedFactor)
@@ -350,7 +355,7 @@ define(["Observable", "FighterAction", "../assets/sprites/rpg" ], function (Obse
             };
         }
         
-        var tween = createjs.Tween.get(pFighterSprite)
+        createjs.Tween.get(pFighterSprite)
             .call(pFighterSprite.gotoAndPlay, ["run"])
             .to(targetPoint, 15 * speedFactor)
             .call(pFighterSprite.gotoAndPlay, ["attack"])
